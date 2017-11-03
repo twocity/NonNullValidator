@@ -1,6 +1,7 @@
 package me.twocities.nonnull
 
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.google.gson.TypeAdapter
 import com.google.gson.TypeAdapterFactory
 import com.google.gson.reflect.TypeToken
@@ -33,10 +34,15 @@ fun generateValidator(data: ClassData, dir: File) {
 
   val func = FunSpec.builder("validate")
       .addModifiers(OVERRIDE)
+      .addAnnotation(AnnotationSpec.builder(Suppress::class)
+          .addMember("names", "%S", "SENSELESS_COMPARISON")
+          .build())
       .addParameter("t", dataClassName).apply {
     data.properties.filter { !it.nullable }.forEach {
-      addStatement("requireNotNull(t.%L, { %S })",
-          it.name, "`${data.className}${'$'}{'$'}${it.name}` declared as non-null, but was null.")
+      val message = "`${data.className}${'$'}{'$'}${it.name}` declared as non-null, but was null."
+      beginControlFlow("if (t.%L == null)", it.name)
+      addStatement("throw %T(%S)", JsonSyntaxException::class, message)
+      endControlFlow()
     }
   }.build()
 
@@ -136,5 +142,11 @@ private fun buildDelegateClass(): TypeSpec {
       .build()
 
   return clazz.addFunction(readFunc).addFunction(writeFunc).build()
+}
+
+private fun test(args: String?) {
+  if (args == null) {
+    throw JsonSyntaxException("")
+  }
 }
 

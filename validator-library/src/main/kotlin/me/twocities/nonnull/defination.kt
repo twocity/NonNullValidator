@@ -16,6 +16,6 @@ annotation class NonNullValidate
  * Validate given value [T]'s non-null properties were not null after json deserialization.
  * The generated validator will implements this interface
  */
-interface NonNullValidator<T> {
+interface NonNullValidator<in T> {
   fun validate(t: T)
 }

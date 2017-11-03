@@ -4,12 +4,12 @@ import me.twocities.nonnull.NonNullValidate
 import me.twocities.nonnull.library.LibraryModel
 
 
-private const val LIBRARY_JSON= """
+private const val LIBRARY_JSON = """
 {
 "value": "internal value",
 "id": 1024,
 "list": ["a", "b", "c"],
-"naiime": "name",
+"name": "name",
 "map": {"a": 1, "b": 2}
 }
 """
@@ -18,7 +18,7 @@ const val ANDROID_JSON = """
 {
 "library": $LIBRARY_JSON,
 "name": "name",
-"hasWiki": "wiki",
+"hasWiki": true,
 "description": "description",
 "topics": ["a", "b", "c"]
 }

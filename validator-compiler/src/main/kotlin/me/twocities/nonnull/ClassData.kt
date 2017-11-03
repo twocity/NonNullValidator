@@ -9,4 +9,4 @@ data class ClassData(val element: TypeElement, val packageName: String, val clas
 data class Property(val name: String, val nullable: Boolean)
 
 
-fun ClassData.validatorName(): String = "${className}Validator_"
+fun ClassData.validatorName(): String = "${className}_Validator"

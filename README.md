@@ -1,6 +1,6 @@
 # NonNullValidate
 
-A Null Safety validator for kotlin with Gson.
+Validate class's non-null property after Gson's deserialization.
 
 ## Usage
 
@@ -23,7 +23,7 @@ kapt {
 
 ```kotlin
 val gson = GsonBuilder().registerTypeAdapterFactory(GsonNonNullValidator()).create()
-// this will throw IllegalArgumentException, since `description` is absent
+// this will throw JsonSyntaxException, since `description` is absent
 val repo = gson.fromJson("""{"name":"NonNullValidate"}""", Repo::class.java)
 ```
 
